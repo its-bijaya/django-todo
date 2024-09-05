@@ -1,19 +1,16 @@
-# Use the official Python image from Docker Hub
-FROM python:3
+FROM python:3.8
 
-# Install Django 3.2 using pip
-RUN pip install django==3.2
+WORKDIR /home/app
 
-WORKDIR /app
+COPY requirement.txt .
 
-# Copy the current directory contents into the container at / (root of the app)
+RUN python3 -m venv myenv && \
+    . myenv/bin/activate && \
+    pip install -r requirements.txt
+
 COPY . .
 
-# Run Django migrations to set up the database
-RUN python manage.py migrate
-
-# Expose port 8000 to allow communication to/from the Docker container
 EXPOSE 8000
 
-# Specify the command to run when the container starts
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["myenv/bin/python", "manage.py", "runserver", "0.0.0.0:8000"]
+
