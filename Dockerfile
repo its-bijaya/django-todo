@@ -2,7 +2,7 @@ FROM python:3.8
 
 WORKDIR /home/app
 
-COPY requirement.txt .
+COPY requirements.txt .
 
 RUN python3 -m venv myenv && \
     . myenv/bin/activate && \
